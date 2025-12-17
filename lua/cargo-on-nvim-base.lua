@@ -3,7 +3,7 @@ local M = {}
 local plugin_root = vim.fn.fnamemodify(debug.getinfo(1, "S").source:sub(2), ":p:h:h")
 
 -- Switch to release from debug when ready
-local runner = plugin_root .. "/target/debug/cargo-on-nvim"
+local runner = plugin_root .. "/target/release/cargo-on-nvim"
 
 local function handle_result(res)
     -- cargo usually returns output to both stderr and stdout
