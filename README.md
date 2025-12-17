@@ -2,7 +2,7 @@
 
 Run cargo commands in Neovim.
 
-** Please note that this repository is originally intended for my personal use. **
+**Please note that this repository is originally intended for my personal use.**
 
 #### Lazy.nvim
 ```lua
