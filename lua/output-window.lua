@@ -23,6 +23,16 @@ function M.open_float_window()
     -- Initialise buffer as terminal channel
     local chan = vim.api.nvim_open_term(buf, {})
 
+    -- Allow closing the float window with q or Enter
+    local function close_window()
+        if vim.api.nvim_win_is_valid(win) then
+            vim.api.nvim_win_close(win, true)
+        end
+    end
+
+    vim.keymap.set('n', '<CR>', close_window, { buffer = buf, silent = true })
+    vim.keymap.set('n', 'q', close_window, { buffer = buf, silent = true })
+
     return buf, win, chan
 end
 

@@ -17,13 +17,13 @@ function M.dispatch(args)
         pty = true,
         on_stderr = function(_, data)
             if data then
-                local lines = table.concat(data, "\n")
+                local lines = table.concat(data, "\r\n")
                 vim.api.nvim_chan_send(chan, lines)
             end
         end,
         on_stdout = function(_, data)
             if data then
-                local lines = table.concat(data, "\n")
+                local lines = table.concat(data, "\r\n")
                 vim.api.nvim_chan_send(chan, lines)
             end
         end,
