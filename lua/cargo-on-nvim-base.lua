@@ -1,24 +1,19 @@
 local M = {}
 
 local plugin_root = vim.fn.fnamemodify(debug.getinfo(1, "S").source:sub(2), ":p:h:h")
-
--- Switch to release from debug when ready
 local runner = plugin_root .. "/target/release/cargo-on-nvim"
+local output_module = require("output-window")
 
 local function handle_result(res)
-    -- cargo usually returns output to both stderr and stdout
-    local output = res.stderr
-    if output ~= "" then
-        output = output .. "\n" .. res.stdout
-    else
-        output = res.stdout
-    end
+    -- cargo uses stderr for log and stdout for output
+    local output = table.concat({
+        res.stderr or "",
+        res.stdout or "",
+    }, "\n")
 
-    if res.code ~= 0 then
-        vim.notify(output, vim.log.levels.ERROR)
-    else
-        vim.notify(output, vim.log.levels.INFO)
-    end
+    local buf, win = output_module.open_float_window()
+    vim.bo[buf].filetype = "cargo-output" -- apply highlights etc.
+    output_module.write_output(buf, output)
 end
 
 function M.dispatch(args)
